@@ -53,7 +53,7 @@ class Monitor:
     Clear the display 
     '''
     def clear(self):
-        self.display = [[0] * self.row] * self.col
+        self.display = [0] * (self.row * self.col)
 
     def render(self):
         for i in range(self.col * self.row):
@@ -62,15 +62,10 @@ class Monitor:
             y = math.floor(i / self.col) * self.scale
 
             colour = OFF
-
+            
             if self.display[i]:
                 colour = ON
             pygame.draw.rect(self.win, colour, [x, y, self.scale, self.scale], 0)
         pygame.display.flip()
-
-    def test_render(self):
-        self.set_pixel(0,0)
-        self.set_pixel(61,31)
-
 
     
