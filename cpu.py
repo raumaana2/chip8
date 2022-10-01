@@ -6,20 +6,16 @@ class CPU:
         self.keyboard = keyboard
 
         self.memory = [0] * 4096
-
         self.v = [0] * 16 
-
         self.i = 0
 
         self.delay_timer = 0
         self.sound_timer = 0
 
         self.pc = 0x200
-
         self.stack = []
 
         self.paused = False
-
         self.speed = 10
 
     def load_sprites_into_memory(self):
@@ -41,22 +37,15 @@ class CPU:
             0xF0, 0x80, 0xF0, 0x80, 0xF0, 
             0xF0, 0x80, 0xF0, 0x80, 0x80  
         ]
-        for i, f in enumerate(fonts): self.memory[i] = f
-        
-        
 
-    
+        for i, f in enumerate(fonts):
+            self.memory[i] = f
+
     def load_rom(self, rom_name):
         r = open(rom_name, "rb")
         for i, rv in enumerate(r.read()): 
             self.memory[0x200 + i] = rv
         
-
-
-       
-        
-        
-
     def cycle(self):
         for i in range(self.speed):
             if not self.paused:
@@ -68,29 +57,20 @@ class CPU:
 
         self.monitor.render()
 
-
     def update_timers(self):
         if self.delay_timer > 0: self.delay_timer -= 1
         if self.sound_timer > 0: self.sound_timer -= 1
 
-    
     def draw(self, x, y, n):
         self.v[0xF] = 0
 
         for i in range(n):
             sprite = self.memory[self.i + i]
-
             for j in range(8):
-                if (sprite & 0x80) > 0:
+                if sprite & 0x80:
                     if self.monitor.set_pixel(self.v[x] + j, self.v[y] + i):
                         self.v[0xF] = 1
-            
-                
                 sprite <<= 1
-
-
-
-    
 
     def execute_instruction(self, opcode):
         self.pc += 2
@@ -108,7 +88,7 @@ class CPU:
                 match opcode:
                     case 0x00E0:
     
-                        self.monitor.clear()
+                        self.monitor.reset()
                     case 0x00EE:
     
                         self.stack.pop()
@@ -235,9 +215,6 @@ class CPU:
                     case 0x65:
                         for register_index in range(x):
                             self.v[register_index] = self.memory[self.i + register_index]
+
         self.v[x] = self.v[x] % 256
         self.v[y] = self.v[y] % 256   
-                 
-            
-            
-

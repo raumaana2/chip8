@@ -1,8 +1,8 @@
 import pygame
 import math
 
-OFF = (0, 0, 0)
-ON = (255, 255, 255)
+OFF = (22, 22, 40)
+ON = (202, 202, 252)
 
 WIDTH = 64
 HEIGHT = 32
@@ -18,18 +18,12 @@ class Monitor:
 
     '''
     def __init__(self, scale: int):
-        
-
         self.scale = scale
-
-        self.display =  [[0] * WIDTH for x in range(HEIGHT)]
-        
         self.win = pygame.display.set_mode((WIDTH * self.scale, HEIGHT * self.scale))
+        pygame.display.set_caption("Chip8")
         self.win.fill(OFF)
-
-        pygame.display.flip()
-
-
+        self.reset()
+        self.render()
 
 
     '''
@@ -48,10 +42,10 @@ class Monitor:
         
 
     '''
-    Clear the display 
+    Reset & clear the display 
     '''
-    def clear(self):
-        self.display = [[0] * WIDTH] * HEIGHT
+    def reset(self):
+        self.display = [[0 for x in range(WIDTH)] for y in range(HEIGHT)]
 
     def render(self):
         for y in range(HEIGHT):
@@ -61,10 +55,3 @@ class Monitor:
                     colour = ON
                 pygame.draw.rect(self.win, colour, [x * self.scale, y * self.scale, self.scale, self.scale], 0)
         pygame.display.flip()
-
-    def test(self):
-        self.set_pixel(0,0)
-        self.set_pixel(0,63)
-        self.set_pixel(31,63)
-        self.set_pixel(31, 0)
-
