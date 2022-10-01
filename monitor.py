@@ -37,14 +37,14 @@ class Monitor:
     '''
     def set_pixel(self, x: int, y: int) -> bool: 
         # wrap around
-        x %= len(self.display)
-        y %= len(self.display[0])
+        x %= WIDTH
+        y %= HEIGHT
         
         # set pixel by XORing with 1
-        self.display[x][y] ^= 1;
+        self.display[y][x] ^= 1;
         
         # check if pixel was erased
-        return not self.display[x][y]
+        return not self.display[y][x]
         
 
     '''
@@ -54,12 +54,12 @@ class Monitor:
         self.display = [[0] * WIDTH] * HEIGHT
 
     def render(self):
-        for x in range(len(self.display)):
-            for y in range(len(self.display[0])):
+        for y in range(HEIGHT):
+            for x in range(WIDTH):
                 colour = OFF
-                if self.display[x][y]:
+                if self.display[y][x]:
                     colour = ON
-                pygame.draw.rect(self.win, colour, [y * self.scale, x * self.scale, self.scale, self.scale], 0)
+                pygame.draw.rect(self.win, colour, [x * self.scale, y * self.scale, self.scale, self.scale], 0)
         pygame.display.flip()
 
     def test(self):
