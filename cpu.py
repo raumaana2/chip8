@@ -74,14 +74,21 @@ class CPU:
         if self.sound_timer > 0: self.sound_timer -= 1
 
     
-    def draw(self, x, y, opcode):
-        width = 8
-        height = opcode & 0xF
-
+    def draw(self, x, y, n):
         self.v[0xF] = 0
 
-        for i in range(x):
-            for in range(y):
+        for i in range(n):
+            sprite = self.memory[self.i + i]
+
+            for j in range(8):
+                if (sprite & 0x80) > 0:
+                    if self.monitor.set_pixel(self.v[x] + j, self.v[y] + i):
+                        self.v[0xF] = 1
+            
+                
+                sprite <<= 1
+
+
 
     
 
@@ -93,6 +100,9 @@ class CPU:
         kk = (opcode & 0x00FF)
         n = (opcode & 0x000F)
         op = (opcode & 0xF000)
+
+        print(f"opcode {hex(opcode)}, v{x} {self.v[x]} v{y} {self.v[y]}")
+        print(f"v list {self.v}")
 
         match op:
             case 0x0000:
@@ -174,7 +184,7 @@ class CPU:
                 
                 self.v[x] = random.randint(0, 255) & kk
             case 0xD000:
-                self.draw(x,y,opcode)
+                self.draw(x, y, n)
             case 0xE000:
                 
                 match kk:
@@ -226,8 +236,8 @@ class CPU:
                     case 0x65:
                         for register_index in range(x):
                             self.v[register_index] = self.memory[self.i + register_index]
-        self.v[x] = self.v[x] % 256
-        self.v[y] = self.v[y] % 256   
+        # self.v[x] = self.v[x] % 256
+        # self.v[y] = self.v[y] % 256   
                  
             
             
