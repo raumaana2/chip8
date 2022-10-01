@@ -14,13 +14,14 @@ def init():
     keyboard = Keyboard()
     cpu = CPU(monitor, keyboard)
     cpu.load_sprites_into_memory()
-    cpu.load_rom("./roms/IBMLogo.ch8")
+    cpu.load_rom("./roms/Pong.ch8")
 
     clock = pygame.time.Clock()
     run = True
     while run:
-        clock.tick(60)
+        clock.tick(FPS)
         cpu.cycle()
+
         for event in pygame.event.get():
             match event.type:
                 case pygame.QUIT: 

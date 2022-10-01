@@ -4,25 +4,27 @@ import math
 OFF = (0, 0, 0)
 ON = (255, 255, 255)
 
+WIDTH = 64
+HEIGHT = 32
+
 class Monitor:
     '''
     Class used to generate graphics for emulator
 
     Attributes:
-        col: display columns
-        row: display rows
+        WIDTH: display WIDTHumns
+        HEIGHT: display HEIGHTs
         display: where graphics is shown
 
     '''
     def __init__(self, scale: int):
-        self.col = 64
-        self.row = 32
+        
 
         self.scale = scale
 
-        self.display =  [0] * (self.row * self.col)
+        self.display =  [[0] * WIDTH for x in range(HEIGHT)]
         
-        self.win = pygame.display.set_mode((self.col * self.scale, self.row * self.scale))
+        self.win = pygame.display.set_mode((WIDTH * self.scale, HEIGHT * self.scale))
         self.win.fill(OFF)
 
         pygame.display.flip()
@@ -34,38 +36,32 @@ class Monitor:
     Toggles the pixel to 0 or 1
     '''
     def set_pixel(self, x: int, y: int) -> bool: 
-        # ensure pixel is not out of bounds and if so wrap around
-        if x >= self.col: x -= self.col
-        elif x < 0: x += self.col
-
-        if y >= self.row: y -= self.row
-        elif y < 0: x += self.row
-
-        pixel_location = x + (y * self.col);
+        # wrap around
+        x %= len(self.display)
+        y %= len(self.display[0])
+        
         # set pixel by XORing with 1
-        self.display[pixel_location] ^= 1;
+        self.display[x][y] ^= 1;
         
         # check if pixel was erased
-        return not self.display[pixel_location] 
+        return not self.display[x][y]
         
 
     '''
     Clear the display 
     '''
     def clear(self):
-        self.display = [0] * (self.row * self.col)
+        self.display = [[0] * WIDTH] * HEIGHT
 
     def render(self):
-        for i in range(self.col * self.row):
-            x = (i % self.col) * self.scale
-
-            y = math.floor(i / self.col) * self.scale
-
-            colour = OFF
-            
-            if self.display[i]:
-                colour = ON
-            pygame.draw.rect(self.win, colour, [x, y, self.scale, self.scale], 0)
+        for x in range(len(self.display)):
+            for y in range(len(self.display[0])):
+                colour = OFF
+                if self.display[x][y]:
+                    colour = ON
+                pygame.draw.rect(self.win, colour, [y * self.scale, x * self.scale, self.scale, self.scale], 0)
         pygame.display.flip()
 
-    
+    def test(self):
+        self.set_pixel(0,0)
+
