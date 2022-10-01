@@ -236,8 +236,8 @@ class CPU:
                     case 0x65:
                         for register_index in range(x):
                             self.v[register_index] = self.memory[self.i + register_index]
-        # self.v[x] = self.v[x] % 256
-        # self.v[y] = self.v[y] % 256   
+        self.v[x] = self.v[x] % 256
+        self.v[y] = self.v[y] % 256   
                  
             
             
