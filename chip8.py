@@ -14,8 +14,7 @@ def init():
     keyboard = Keyboard()
     cpu = CPU(monitor, keyboard)
     cpu.load_sprites_into_memory()
-    cpu.load_rom("./roms/IBMLogo.ch8")
-    monitor.test()
+    cpu.load_rom("./roms/Pong.ch8")
     clock = pygame.time.Clock()
     run = True
     while run:
