@@ -63,5 +63,10 @@ class Monitor:
         pygame.display.flip()
 
     def test(self):
+        # for i in range(10):
+        #     for j in range(20):
         self.set_pixel(0,0)
+        self.set_pixel(0,63)
+        self.set_pixel(31,63)
+        self.set_pixel(31, 0)
 

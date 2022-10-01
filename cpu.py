@@ -101,8 +101,7 @@ class CPU:
         n = (opcode & 0x000F)
         op = (opcode & 0xF000)
 
-        print(f"opcode {hex(opcode)}, v{x} {self.v[x]} v{y} {self.v[y]}")
-        print(f"v list {self.v}")
+        print(f"opcode {hex(opcode)}")
 
         match op:
             case 0x0000:
