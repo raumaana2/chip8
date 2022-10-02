@@ -18,21 +18,24 @@ class Keyboard:
             99: 0xB,    #C
             118: 0xF     #V
         }
-
+        
         self.key_pressed = [False for i in range(16)]
 
 
     def is_key_pressed(self, key_code):
-        return self.keysPressed[key_code]
+        return self.key_pressed[key_code]
 
 
     def key_up(self, event_key):
-        key = self.key_map[event_key]
-        self.key_pressed[key] = False
-
+        try:
+            key = self.key_map[event_key]
+            self.key_pressed[key] = False
+        except: pass
 
     def key_down(self, event_key):
-        key = self.key_map[event_key]
-        self.key_pressed[key] = True
+        try:
+            key = self.key_map[event_key]
+            self.key_pressed[key] = True
+        except: pass
     
 
