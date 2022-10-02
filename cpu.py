@@ -101,7 +101,6 @@ class CPU:
         kk = (opcode & 0x00FF)
         n = (opcode & 0x000F)
         op = (opcode & 0xF000)
-
         match op:
             case 0x0000:
                 match opcode:
@@ -113,7 +112,7 @@ class CPU:
                 self.pc = nnn
             case 0x2000:
                 self.stack.append(self.pc)
-                self.pc = (opcode & 0xFFF)
+                self.pc = nnn
             case 0x3000:
                 if self.v[x] == kk:
                     self.pc += 2
@@ -162,16 +161,18 @@ class CPU:
 
                         self.v[x] >>= 1
                     case 0x7:
-                        self.v[0xF] = 0
 
-                        if self.v[y] > self.v[x]:
-                            self.v[0xF] = 1
+                        res = self.v[y] - self.v[x]
 
-                        self.v[x] = self.v[y] - self.v[x]
+                        self.v[0xF] = 1 if res > 0 else 0
+
+                        self.v[x] = res % 256
 
                     case 0xE:
-                        self.v[0xF] = self.v[x] & 0x80
+                        print(self.v[x])
+                        self.v[0xF] = (self.v[x] & 0x80)
                         self.v[x] = (self.v[x] << 1) % 256
+                        print(self.v[x])
             case 0x9000:
                 if self.v[x] != self.v[y]:
                     self.pc += 2
@@ -185,7 +186,6 @@ class CPU:
             case 0xD000:
                 self.draw(x, y, n)
             case 0xE000:
-
                 match kk:
                     case 0x9E:
                         if self.keyboard.is_key_pressed(self.v[x]):

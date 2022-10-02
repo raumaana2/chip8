@@ -16,7 +16,7 @@ def main():
     keyboard = Keyboard()
     cpu = CPU(monitor, keyboard)
     cpu.load_sprites_into_memory()
-    cpu.load_rom("./roms/Pong.ch8")
+    cpu.load_rom("./roms/c8_test.c8")
     clock = pygame.time.Clock()
     run = True
 
