@@ -10,7 +10,7 @@
 
 A Chip 8 interpreter implemented in python and pygame.
 
-The motivation for this project was to learn how emulators work as well as learning to make a graphical application using python.
+The motivation for this project was to learn how emulators work and learn how to make a graphical application.
 
 ## Installation
 
